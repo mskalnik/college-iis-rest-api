@@ -1,7 +1,0 @@
-C:\Users\mskalnik\Documents\College\iis-rest_api\Klijent\Klijent\bin\Debug\Klijent.exe.config
-C:\Users\mskalnik\Documents\College\iis-rest_api\Klijent\Klijent\bin\Debug\Klijent.exe
-C:\Users\mskalnik\Documents\College\iis-rest_api\Klijent\Klijent\bin\Debug\Klijent.pdb
-C:\Users\mskalnik\Documents\College\iis-rest_api\Klijent\Klijent\obj\Debug\Klijent.csproj.CoreCompileInputs.cache
-C:\Users\mskalnik\Documents\College\iis-rest_api\Klijent\Klijent\obj\Debug\Klijent.exe
-C:\Users\mskalnik\Documents\College\iis-rest_api\Klijent\Klijent\obj\Debug\Klijent.pdb
-C:\Users\mskalnik\Documents\College\iis-rest_api\Klijent\Klijent\obj\Debug\Klijent.csprojAssemblyReference.cache
