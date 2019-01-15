@@ -36,10 +36,42 @@ namespace Klijent
             } while (nastavi != 4);
         }
 
-        private static void OnosNovog()
+
+        private static void IspisOdredenog()
+        {
+            Console.Clear();
+            Console.Write("Upisite OIB: ");
+            string oib = Console.ReadLine();
+
+            PosaljiZahtjev($"http://localhost:50000/api/vozaci/{oib}");
+        }
+
+        private static void IspisSve()
+        {
+            Console.Clear();
+            PosaljiZahtjev("http://localhost:50000/api/vozaci");
+        }
+
+        private static void PosaljiZahtjev(string path)
         {
             Console.Clear();
 
+            HttpWebRequest zahtjev = (HttpWebRequest)WebRequest.Create(path);
+            zahtjev.Accept = "application/xml";
+            zahtjev.ContentType = "application/xml";
+
+            HttpWebResponse odgovor = (HttpWebResponse)zahtjev.GetResponse();
+            Stream podaci = odgovor.GetResponseStream();
+            XmlDocument doc = new XmlDocument();
+
+            doc.Load(podaci);
+            doc.Save(Console.Out);
+
+            Console.Write("\nPress any key to go to the main menu...");
+            Console.Read();
+        }
+        private static void OnosNovog()
+        {
             Console.Write("Upisite ime: ");
             string ime = Console.ReadLine();
 
@@ -85,61 +117,21 @@ namespace Klijent
             xml = xml.Replace("<?xml version=\"1.0\" encoding=\"utf-16\"?>", "<?xml version=\"1.0\" encoding=\"utf-8\"?>");
             xml = xml.Replace("xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns:xsd=\"http://www.w3.org/2001/XMLSchema\"",
                               "xmlns:i=\"http://www.w3.org/2001/XMLSchema-instance\" xmlns=\"http://schemas.datacontract.org/2004/07/Server.Models\"");
-
             byte[] podaci           = Encoding.UTF8.GetBytes(xml);
-            HttpWebRequest zahtjev  = (HttpWebRequest)WebRequest.Create("http://localhost:50000/api/vozaci/novi");
-            zahtjev.Method          = "POST";
-            zahtjev.Accept          = "application/xml";
-            zahtjev.ContentType     = "application/xml";
+
+            HttpWebRequest zahtjev = (HttpWebRequest)WebRequest.Create("http://localhost:50000/api/vozaci/novi");
+            zahtjev.Method = "POST";
+            zahtjev.Accept = "application/xml";
+            zahtjev.ContentType = "application/xml";
 
             Stream podaciZahtjev = zahtjev.GetRequestStream();
             podaciZahtjev.Write(podaci, 0, podaci.Length);
             podaciZahtjev.Close();
 
             HttpWebResponse odgovor = (HttpWebResponse)zahtjev.GetResponse();
-            Stream podaciOdgovor    = odgovor.GetResponseStream();
-            XmlDocument doc         = new XmlDocument();
+            Stream podaciOdgovor = odgovor.GetResponseStream();
+            XmlDocument doc = new XmlDocument();
             doc.Load(podaciOdgovor);
-            doc.Save(Console.Out);
-
-            Console.Write("\nPress any key to go to the main menu...");
-            Console.Read();
-        }
-
-        private static void IspisOdredenog()
-        {
-            Console.Clear();
-            Console.Write("Upisite OIB: ");
-            string oib = Console.ReadLine();
-
-            string path = $"http://localhost:50000/api/vozaci/{oib}";
-            HttpWebRequest zahtjev = (HttpWebRequest)WebRequest.Create(path);
-            zahtjev.Accept = "application/xml";
-
-            HttpWebResponse odgovor = (HttpWebResponse)zahtjev.GetResponse();
-            Stream podaci = odgovor.GetResponseStream();
-            XmlDocument doc = new XmlDocument();
-
-            doc.Load(podaci);
-            doc.Save(Console.Out);
-
-            Console.Write("\nPress any key to go to the main menu...");
-            Console.Read();
-        }
-
-        private static void IspisSve()
-        {
-            Console.Clear();
-
-            string path = $"http://localhost:50000/api/vozaci";
-            HttpWebRequest zahtjev = (HttpWebRequest)WebRequest.Create(path);
-            zahtjev.Accept = "application/xml";
-
-            HttpWebResponse odgovor = (HttpWebResponse)zahtjev.GetResponse();
-            Stream podaci = odgovor.GetResponseStream();
-            XmlDocument doc = new XmlDocument();
-
-            doc.Load(podaci);
             doc.Save(Console.Out);
 
             Console.Write("\nPress any key to go to the main menu...");
